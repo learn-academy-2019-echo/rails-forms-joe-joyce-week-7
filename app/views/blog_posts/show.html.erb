@@ -5,6 +5,10 @@
   <%= link_to "All Posts", all_posts_path %>
 </div>
 
+<div>
+  <%= link_to "Delete", delete_blog_post_path(@post), method: :delete %>
+</div>
+
 <ul>
   <% @post.comments.each do |comment| %>
     <li>

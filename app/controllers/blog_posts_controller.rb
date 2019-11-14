@@ -10,16 +10,36 @@ class BlogPostsController < ApplicationController
   end
   
   def new
+    @post = BlogPost.new
   end 
   
   def create
-    @post = BlogPost.create(title: params[:title],
-    content: params[:content])
-    if @post.valid?
+    @post = BlogPost.new(
+      # title: params[:title],
+      # content: params[:content]
+      blog_post_params
+    )
+    
+    if @post.save
       redirect_to @post
     else
       render action: :new
     end
   end
   
+  def delete
+    @post = BlogPost.find(params[:id])
+    if @post.destroy
+      redirect_to blog_posts_path
+    else
+      redirect_to blog_post_path(@post)
+    end 
+  end 
+  
+  private
+  def blog_post_params
+    params
+      .require(:blog_post)
+      .permit([:title, :content])
+  end
 end
